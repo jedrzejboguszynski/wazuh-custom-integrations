@@ -1,0 +1,15 @@
+<group name="nmap_vulnerabilities,">
+  <!-- Base rule for Nmap vulnerability scanner integration -->
+  <rule id="100014" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="integration">^nmap_shadow_it$</field>
+    <description>Nmap Shadow IT: Network scanning activity monitored.</description>
+  </rule>
+  
+  <rule id="100015" level="12">
+    <if_sid>100014</if_sid>
+    <match>unauthorized</match>
+    <description>Shadow IT Alert: Unauthorized device detected in the network! IP: $(host_ip), MAC: $(mac_address) ($(vendor))</description>
+    <group>pci_dss_11.1,security_misconfiguration,ts_shadow_it,</group>
+  </rule>
+</group>

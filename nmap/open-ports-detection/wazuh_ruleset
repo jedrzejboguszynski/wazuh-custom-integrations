@@ -1,0 +1,16 @@
+<group name="nmap_scan,">
+  <!-- Base rule -->
+  <rule id="100002" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="integration">^nmap$</field>
+    <description>Nmap: Open port $(nmap_service_port) detected on $(host)</description>
+  </rule>
+
+  <!-- High-priority warning -->
+  <rule id="100003" level="8">
+    <if_sid>100002</if_sid>
+    <field name="nmap_service_port">21|23|5900|3389</field>
+    <description>Nmap: Potentially insecure open port ($(nmap_service_port)/$(service)) detected on host $(host)</description>
+    <group>vulnerability_detector,pci_dss_1.2.1,</group>
+  </rule>
+</group>

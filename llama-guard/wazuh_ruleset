@@ -1,0 +1,11 @@
+<rule id="100100" level="3">
+  <decoded_as>json</decoded_as>
+  <field name="integration">llama_guard</field>
+  <description>Llama Guard: Base event</description>
+</rule>
+
+<rule id="100101" level="15">
+  <if_sid>100100</if_sid>
+  <field name="event">POLICY_VIOLATION</field>
+  <description>Critical: AI Policy Violation ($(category_name)) by user $(user_id)</description>
+</rule>
