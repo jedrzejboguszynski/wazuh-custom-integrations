@@ -1,4 +1,4 @@
-# Wazuh Security Integrations
+# Wazuh + Nmap Integrations
 
 A collection of 3 lightweight integrations for the Wazuh agent designed to automate security monitoring and local network vulnerability detection.
 
