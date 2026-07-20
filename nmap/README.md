@@ -6,7 +6,7 @@ A collection of 3 lightweight integrations for the Wazuh agent designed to autom
 
 1. **Integration 1: Open Ports Audit**
    * Monitors active open ports and alerts on insecure or unauthorized port exposures.
-2. **Integration 2: System Vulnerability Scanning**
+2. **Integration 2: Vulnerability Scanning**
    * Leverages Nmap scripting engine (NSE) to map system vulnerabilities and forwards results directly to the Wazuh Manager.
 3. **Integration 3: Rogue Host Detection (Shadow IT)**
    * Scans subnets using Nmap and matches discovered MAC addresses against a whitelist (`allowed_macs.txt`).
