@@ -1,0 +1,67 @@
+<!-- Malicious redirection rules in Exchange Online -->
+<group name="office365,exchange,bec,">
+  <!-- Parent rule 91531: Office 365 operational event -->
+  <rule id="108311" level="12">
+    <if_sid>91531</if_sid>
+    <field name="office365.Workload">^Exchange$</field>
+    <field name="office365.Operation">^New-InboxRule$|^Set-InboxRule$</field>
+    <field name="office365.Parameters">ForwardTo|RedirectTo</field>
+    <description>M365 Exchange: External email forwarding inbox rule created (Possible BEC)</description>
+    <mitre>
+      <id>T1114.003</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Privilege escalation (assignment of the Global Administrator role to a user) -->
+<group name="office365,entra_id,privilege_escalation,">
+  <!-- Parent rule 91531: Office 365 operational event -->
+  <rule id="108312" level="15">
+    <if_sid>91531</if_sid>
+    <field name="office365.Workload">^AzureActiveDirectory$</field>
+    <field name="office365.Operation">^Add member to role$</field>
+    <field name="office365.ModifiedProperties">Global Administrator</field>
+    <description>M365 Entra ID: Global Administrator role assigned to user</description>
+    <mitre>
+      <id>T1078.004</id>
+      <id>T1098</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Mass data exfiltration from OneDrive and SharePoint -->
+<group name="office365,sharepoint,data_exfiltration">
+
+  <!-- Overriding rule 91531 to level 1 so events are ingested into the stateful memory accumulator -->
+  <rule id="91531" level="1" overwrite="yes">
+    <if_sid>91500</if_sid>
+    <field name="office365.Workload">^SharePoint$</field>
+    <description>Office 365: SharePoint operational event</description>
+  </rule>
+  
+  <!-- Frequency detection for SharePoint mass file downloads -->
+  <rule id="108314" level="15" frequency="30" timeframe="120">
+    <if_matched_sid>91531</if_matched_sid>
+    <field name="office365.Workload">^SharePoint$</field>
+    <field name="office365.Operation">^FileDownloaded$|^FileAccessed$</field>
+    <same_field>office365.UserId</same_field>
+    <description>M365 SharePoint/OneDrive: Mass file download detected (Possible Data Exfiltration)</description>
+    <mitre>
+      <id>T1567.002</id>
+    </mitre>
+  </rule>
+</group>
+
+<!-- Consent phishing (users granting permissions to external SaaS applications) -->
+<group name="office365,consent_phishing">
+  <rule id="108316" level="12">
+    <if_sid>91531</if_sid>
+    <field name="office365.Workload">^AzureActiveDirectory$</field>
+    <field name="office365.Operation">^Consent to application$</field>
+    <field name="office365.ModifiedProperties">Mail\.Read|Mail\.Send|Files\.Read|Directory\.ReadWrite</field>
+    <description>M365 Entra ID: High-risk OAuth application consent granted (Possible Consent Phishing)</description>
+    <mitre>
+      <id>T1528</id>
+    </mitre>
+    </rule>
+</group>
