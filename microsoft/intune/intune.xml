@@ -1,0 +1,18 @@
+<group name="ms-graph,intune,">
+
+  <rule id="100920" level="0">
+    <decoded_as>json-msgraph</decoded_as>
+    <field name="ms-graph.relationship">^managedDevices$</field>
+    <options>no_full_log</options>
+    <description>MS Graph: Intune managed device (base rule).</description>
+  </rule>
+
+  <rule id="100921" level="8">
+    <if_sid>100920</if_sid>
+    <field name="ms-graph.complianceState">^noncompliant$</field>
+    <options>no_full_log</options>
+    <description>Intune: device $(ms-graph.deviceName) is NOT compliant (user: $(ms-graph.userPrincipalName)).</description>
+    <group>intune_noncompliant,</group>
+  </rule>
+
+</group>
