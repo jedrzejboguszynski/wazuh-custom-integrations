@@ -1,0 +1,32 @@
+<!-- Defender for cloud ruleset, ingested via Azure Log Analytics Workspace-->
+<group name="azure,defender_for_cloud,">
+
+  <rule id="100940" level="0">
+    <if_sid>87801</if_sid>
+    <field name="AlertName" type="pcre2">.+</field>
+    <options>no_full_log</options>
+    <description>Azure Log Analytics: SecurityAlert (base rule).</description>
+  </rule>
+
+  <rule id="100941" level="12">
+    <if_sid>100940</if_sid>
+    <field name="AlertSeverity" type="pcre2">(?i)^high$</field>
+    <options>no_full_log</options>
+    <description>Defender for Cloud HIGH alert: $(AlertName) | resource: $(CompromisedEntity)</description>
+  </rule>
+
+  <rule id="100942" level="8">
+    <if_sid>100940</if_sid>
+    <field name="AlertSeverity" type="pcre2">(?i)^medium$</field>
+    <options>no_full_log</options>
+    <description>Defender for Cloud MEDIUM alert: $(AlertName) | resource: $(CompromisedEntity)</description>
+  </rule>
+
+  <rule id="100943" level="4">
+    <if_sid>100940</if_sid>
+    <field name="AlertSeverity" type="pcre2">(?i)^low$</field>
+    <options>no_full_log</options>
+    <description>Defender for Cloud LOW alert: $(AlertName) | resource: $(CompromisedEntity)</description>
+  </rule>
+
+</group>

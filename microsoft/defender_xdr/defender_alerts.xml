@@ -1,0 +1,37 @@
+<!-- Supress default Wazuh MS Graph API rules chain -->
+<group name="ms-graph,">
+  <rule id="99500" level="0" overwrite="yes">
+    <decoded_as>json-msgraph</decoded_as>
+    <field name="integration">disabled-by-local-override</field>
+    <description>MS Graph: built-in chain disabled, see local rules 100900+.</description>
+  </rule>
+</group>
+
+<!-- Defender alerts mapping ruleset -->
+<group name="ms-graph,defender,">
+
+  <rule id="100900" level="0">
+    <decoded_as>json-msgraph</decoded_as>
+    <field name="ms-graph.relationship">alerts_v2</field>
+    <description>MS Graph: Defender XDR alert (base rule).</description>
+  </rule>
+
+  <rule id="100901" level="12">
+    <if_sid>100900</if_sid>
+    <field name="ms-graph.severity">^high$</field>
+    <description>Defender XDR HIGH alert: $(ms-graph.title)</description>
+  </rule>
+
+  <rule id="100902" level="8">
+    <if_sid>100900</if_sid>
+    <field name="ms-graph.severity">^medium$</field>
+    <description>Defender XDR HIGH alert: $(ms-graph.title)</description>
+  </rule>
+
+  <rule id="100903" level="4">
+    <if_sid>100900</if_sid>
+    <field name="ms-graph.severity">^low$</field>
+    <description>Defender XDR MEDIUM alert: $(ms-graph.title)</description>
+  </rule>
+
+</group>
