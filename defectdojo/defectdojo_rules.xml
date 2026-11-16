@@ -1,0 +1,46 @@
+<group name="defectdojo,vulnerability,">
+
+  <rule id="900500" level="0">
+    <field name="integration">^defectdojo$</field>
+    <description>DefectDojo finding received</description>
+  </rule>
+
+  <rule id="900501" level="15">
+    <if_sid>900500</if_sid>
+    <field name="dd_severity">^Critical$</field>
+    <description>DefectDojo: Critical severity finding - $(dd_title) [$(dd_product)]</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>defectdojo_critical,vulnerability_critical,</group>
+  </rule>
+
+  <rule id="900502" level="12">
+    <if_sid>900500</if_sid>
+    <field name="dd_severity">^High$</field>
+    <description>DefectDojo: High severity finding - $(dd_title) [$(dd_product)]</description>
+    <group>defectdojo_high,vulnerability_high,</group>
+  </rule>
+
+  <rule id="900503" level="7">
+    <if_sid>900500</if_sid>
+    <field name="dd_severity">^Medium$</field>
+    <description>DefectDojo: Medium severity finding - $(dd_title) [$(dd_product)]</description>
+    <group>defectdojo_medium,vulnerability_medium,</group>
+  </rule>
+
+  <rule id="900504" level="4">
+    <if_sid>900500</if_sid>
+    <field name="dd_severity">^Low$</field>
+    <description>DefectDojo: Low severity finding - $(dd_title) [$(dd_product)]</description>
+    <group>defectdojo_low,vulnerability_low,</group>
+  </rule>
+
+  <rule id="900505" level="2">
+    <if_sid>900500</if_sid>
+    <field name="dd_severity">^Info$</field>
+    <description>DefectDojo: Informational finding - $(dd_title) [$(dd_product)]</description>
+    <group>defectdojo_info,vulnerability_info,</group>
+  </rule>
+
+</group>

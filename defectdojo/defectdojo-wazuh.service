@@ -1,0 +1,11 @@
+[Unit]
+Description=Forward DefectDojo findings to Wazuh
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/var/ossec/etc/defectdojo.env
+ExecStart=/usr/bin/python3 /var/ossec/integrations/defectdojo_wazuh.py --mode ${DD_WAZUH_MODE}
+User=wazuh
+Group=wazuh

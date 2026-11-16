@@ -1,0 +1,8 @@
+<decoder name="defectdojo">
+  <prematch>"integration": ?"defectdojo"</prematch>
+</decoder>
+
+<decoder name="defectdojo-json">
+  <parent>defectdojo</parent>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>
